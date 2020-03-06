@@ -99,7 +99,6 @@ const AppBar = ({ onSearch }) => {
               onKeyPress={e => {
                 const enterPressed = e.charCode === 13
                 if (enterPressed) {
-                  console.log(searchText)
                   onSearch(searchText)
                 }
               }}
