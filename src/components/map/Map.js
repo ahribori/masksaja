@@ -50,6 +50,7 @@ const Map = () => {
         const { x, y } = firstItem
         const moveLatLng = new kakao.maps.LatLng(y, x)
         map.panTo(moveLatLng)
+        map.setLevel(3)
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert("검색 결과가 없습니다.")
       } else {

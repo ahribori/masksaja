@@ -98,6 +98,7 @@ const AppBar = ({ onSearch }) => {
                 const enterPressed = e.charCode === 13
                 if (enterPressed) {
                   onSearch(searchText)
+                  e.target.blur();
                 }
               }}
             />
