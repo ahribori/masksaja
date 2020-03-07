@@ -90,39 +90,41 @@ const Map = () => {
     }
   }
 
-  const removeAllShopOverlays = () =>
+  const removeAllShopOverlays = () => {
     document.querySelectorAll("[data-shop-code]").forEach(e => e.parentNode.removeChild(e))
-
-  const setShopOverlays = shops => {
-    removeAllShopOverlays()
-    shops.forEach(shop => {
-      const {
-        // code, // 판매기관코드
-        // name, // 판매기관명
-        // type, // 판매처 유형 (약국: 01, 우체국: 02, 농협: 03)
-        // addr, // 주소
-        // tel, // 연락처
-        // stock_d, // 입고일
-        // stock_t, // 입고시간
-        // stock_cnt, // 입고수량
-        // sold_cnt, // 판매수량
-        // remain_cnt, // 잔고수량
-        // sold_out, // 완판여부
-        lat, // 위도
-        lng // 경도
-      } = shop
-
-      const overlay = new kakao.maps.CustomOverlay({
-        map,
-        clickable: true,
-        position: new kakao.maps.LatLng(lng, lat),
-        content: renderToStaticMarkup(<ShopOverlay {...shop} />),
-        zIndex: 99999
-      })
-      overlay.setMap(map)
-      tippy("[data-tippy-content]", { allowHTML: true })
-    })
   }
+
+  const setShopOverlays = shops =>
+    setTimeout(() => {
+      removeAllShopOverlays()
+      shops.forEach(shop => {
+        const {
+          // code, // 판매기관코드
+          // name, // 판매기관명
+          // type, // 판매처 유형 (약국: 01, 우체국: 02, 농협: 03)
+          // addr, // 주소
+          // tel, // 연락처
+          // stock_d, // 입고일
+          // stock_t, // 입고시간
+          // stock_cnt, // 입고수량
+          // sold_cnt, // 판매수량
+          // remain_cnt, // 잔고수량
+          // sold_out, // 완판여부
+          lat, // 위도
+          lng // 경도
+        } = shop
+
+        const overlay = new kakao.maps.CustomOverlay({
+          map,
+          clickable: true,
+          position: new kakao.maps.LatLng(lat, lng),
+          content: renderToStaticMarkup(<ShopOverlay {...shop} />),
+          zIndex: 99999
+        })
+        overlay.setMap(map)
+        tippy("[data-tippy-content]", { allowHTML: true })
+      })
+    }, 0)
 
   const handleSearch = searchText => {
     if (searchText) {
@@ -168,17 +170,24 @@ const Map = () => {
   useEffect(() => {
     if (bounds) {
       // 남서쪽
-      const swBounds = bounds.getSouthWest()
-      // 북동쪽
-      const neBounds = bounds.getNorthEast()
 
-      const { Ga: lon1, Ha: lat1 } = swBounds
-      const { Ga: lon2, Ha: lat2 } = neBounds
+      // const swBounds = bounds.getSouthWest()
+      // // 북동쪽
+      // const neBounds = bounds.getNorthEast()
+      //
+      // const { Ga: lon1, Ha: lat1 } = swBounds
+      // const { Ga: lon2, Ha: lat2 } = neBounds
 
+      const center = map.getCenter()
+      const { Ha: lat, Ga: lng } = center
+      const level = map.getLevel()
+      const radius = (level + 1) * 200
       setPending(true)
-      API.Shop.fetchShopsByBounds(lat1, lat2, lon1, lon2)
+
+      API.Shop.fetchShopsByBounds(lat, lng, radius)
         .then(response => {
-          const shops = response.data
+          const shops = response.data.stores
+          console.log(response.data)
           setShopOverlays(shops)
           setPending(false)
         })
