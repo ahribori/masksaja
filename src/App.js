@@ -4,6 +4,7 @@ import { theme } from "./theme"
 import classes from "./App.module.css"
 import Map from "./components/map"
 import About from "./components/about/About"
+import Notice from "./components/notice/Notice"
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <div className={classes.App}>
         <Map />
         <About />
+        <Notice />
       </div>
     </ThemeProvider>
   )
