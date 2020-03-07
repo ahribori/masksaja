@@ -1,7 +1,7 @@
 import React from "react"
 import Button from "@material-ui/core/Button"
 import ButtonGroup from "@material-ui/core/ButtonGroup"
-import { GpsFixed } from "@material-ui/icons"
+import { GpsFixed, Autorenew } from "@material-ui/icons"
 import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles(theme => ({
@@ -18,29 +18,32 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Toolbar = ({ pending, onLocationButtonClick }) => {
+const Toolbar = ({ pending, onLocationButtonClick, onRenewButtonClick }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.toolbar}>
       <ButtonGroup
         orientation="vertical"
-        variant="contained"
+        variant="outlined"
         color="primary"
-        aria-label="contained primary button group"
+        aria-label="outlined primary button group"
       >
-        <Button variant={"outlined"} disabled={pending} onClick={() => onLocationButtonClick()}>
+        <Button disabled={pending} onClick={() => onLocationButtonClick()}>
           <GpsFixed />
         </Button>
-        {/*<Button variant="outlined">메뉴2</Button>*/}
-        {/*<Button>메뉴3</Button>*/}
+
+        <Button disabled={pending} onClick={() => onRenewButtonClick()}>
+          <Autorenew />
+        </Button>
       </ButtonGroup>
     </div>
   )
 }
 
 Toolbar.defaultProps = {
-  onLocationChange: () => {}
+  onLocationButtonClick: () => {},
+  onRenewButtonClick: () => {}
 }
 
 export default Toolbar

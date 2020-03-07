@@ -1,4 +1,5 @@
 import React from "react"
+import { renderToStaticMarkup } from "react-dom/server"
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import Typography from "@material-ui/core/Typography"
@@ -40,8 +41,28 @@ const ShopOverlay = ({
   lng
 }) => {
   const classes = useStyles()
+
+  const Tooltip = () => (
+    <div>
+      <Typography className={classes.title}>{name}</Typography>
+      <Typography className={classes.content} component="p">
+        남은 수량: {remain_cnt}
+      </Typography>
+      <Typography className={classes.content} component="p">
+        {tel}
+      </Typography>
+      <Typography className={classes.content} component="p">
+        {addr}
+      </Typography>
+    </div>
+  )
+
   return (
-    <div data-shop-code={code} className={classes.container}>
+    <div
+      data-shop-code={code}
+      className={classes.container}
+      data-tippy-content={renderToStaticMarkup(<Tooltip />)}
+    >
       {!sold_out && (
         <Card className={classes.normal}>
           <Typography className={classes.title}>{name}</Typography>

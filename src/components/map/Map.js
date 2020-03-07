@@ -33,6 +33,10 @@ const Map = () => {
   const classes = useStyles()
   const debouncedBounds = useDebounce(bounds, 300)
 
+  const getBounds = useCallback(() => {
+    return map.getBounds()
+  }, [map])
+
   /**
    * 장소 검색
    * @param keyword 검색어
@@ -78,6 +82,13 @@ const Map = () => {
     }
   }
 
+  const renew = () => {
+    const level = map.getLevel()
+    if (level <= 6) {
+      setBounds(getBounds())
+    }
+  }
+
   const removeAllShopOverlays = () =>
     document.querySelectorAll("[data-shop-code]").forEach(e => e.parentNode.removeChild(e))
 
@@ -108,6 +119,7 @@ const Map = () => {
         zIndex: 99999
       })
       overlay.setMap(map)
+      tippy("[data-tippy-content]", { allowHTML: true })
     })
   }
 
@@ -116,10 +128,6 @@ const Map = () => {
       searchPlace(searchText)
     }
   }
-
-  const getBounds = useCallback(() => {
-    return map.getBounds()
-  }, [map])
 
   useEffect(() => {
     const container = document.getElementById("map") //지도를 담을 영역의 DOM 레퍼런스
@@ -184,7 +192,7 @@ const Map = () => {
   return (
     <>
       <AppBar onSearch={handleSearch} />
-      <Toolbar pending={pending} onLocationButtonClick={getLocation} />
+      <Toolbar pending={pending} onLocationButtonClick={getLocation} onRenewButtonClick={renew} />
       {pending && (
         <>
           <LinearProgress color="secondary" className={classes.progress} />
