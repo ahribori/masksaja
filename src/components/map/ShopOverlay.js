@@ -9,7 +9,10 @@ const useStyles = makeStyles(theme => ({
   normal: {
     padding: theme.spacing(1),
     backgroundColor: indigo[700],
-    color: "#fff"
+    color: "#fff",
+    borderRadius: '50%',
+    textAlign: 'center',
+    width: 40,
   },
   soldOut: {
     padding: theme.spacing(1),
@@ -65,15 +68,11 @@ const ShopOverlay = ({
     >
       {!sold_out && (
         <Card className={classes.normal}>
-          <Typography className={classes.title}>{name}</Typography>
-          <Typography className={classes.content} component="p">
-            남은 수량: {remain_cnt}
-          </Typography>
+          <Typography className={classes.title}>{remain_cnt}</Typography>
         </Card>
       )}
       {sold_out && (
         <Card className={classes.soldOut}>
-          <Typography className={classes.title}>{name}</Typography>
           <Typography className={classes.title}>SOLD OUT</Typography>
         </Card>
       )}
