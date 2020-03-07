@@ -8,7 +8,7 @@ import API from "../../api/API"
 import Info from "../info/Info"
 import ShopOverlay from "./ShopOverlay"
 import axios from "axios"
-import tippy from "tippy.js"
+import tippy, { hideAll } from "tippy.js"
 import "tippy.js/dist/tippy.css"
 import { cancelFetchShopsByBounds } from "../../api/Shop"
 
@@ -164,6 +164,12 @@ const Map = () => {
     if (map) {
       getLocation()
       kakao.maps.event.addListener(map, "tilesloaded", onChange)
+      kakao.maps.event.addListener(map, "zoom_start", () => {
+        hideAll()
+      })
+      kakao.maps.event.addListener(map, "dragstart", () => {
+        hideAll()
+      })
     }
   }, [map])
 
