@@ -10,6 +10,7 @@ import ShopOverlay from "./ShopOverlay"
 import axios from "axios"
 import tippy from "tippy.js"
 import "tippy.js/dist/tippy.css"
+import { cancelFetchShopsByBounds } from "../../api/Shop"
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -143,6 +144,10 @@ const Map = () => {
         setInfo("")
       } else {
         removeAllShopOverlays()
+        if (cancelFetchShopsByBounds) {
+          cancelFetchShopsByBounds()
+          setPending(false)
+        }
         setInfo("지도를 좀 더 확대해주세요")
       }
     }
