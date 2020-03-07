@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "../appbar/AppBar"
-import Toolbar from "../toolbar/Toolbar"
+import Toolbar from "./Toolbar"
 import LinearProgress from "@material-ui/core/LinearProgress"
 
 const useStyles = makeStyles(theme => ({
@@ -48,6 +48,26 @@ const Map = () => {
     })
   }
 
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      setPending(true)
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const { coords } = position
+          const { latitude, longitude } = coords
+          const moveLatLng = new kakao.maps.LatLng(latitude, longitude)
+          map.panTo(moveLatLng)
+          setPending(false)
+        },
+        () => {
+          setPending(false)
+        }
+      )
+    } else {
+      setPending(false)
+    }
+  }
+
   const handleSearch = searchText => {
     if (searchText) {
       searchPlace(searchText)
@@ -55,7 +75,6 @@ const Map = () => {
   }
 
   useEffect(() => {
-    console.log("effect")
     const container = document.getElementById("map") //지도를 담을 영역의 DOM 레퍼런스
     const options = {
       //지도를 생성할 때 필요한 기본 옵션
@@ -71,8 +90,8 @@ const Map = () => {
   return (
     <>
       <AppBar onSearch={handleSearch} />
+      {!pending && <Toolbar pending={pending} onLocationButtonClick={getLocation} />}
       {pending && <LinearProgress color="secondary" className={classes.progress} />}
-      <Toolbar />
       <div id="map" className={classes.map} />
     </>
   )
