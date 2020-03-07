@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "../appbar/AppBar"
 import Toolbar from "./Toolbar"
 import LinearProgress from "@material-ui/core/LinearProgress"
+import API from "../../api/API"
+import Info from "../info/Info"
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -22,8 +24,10 @@ const useStyles = makeStyles(theme => ({
 
 const Map = () => {
   const [pending, setPending] = useState(true)
+  const [kakao] = useState(window.kakao)
   const [map, setMap] = useState(null)
-  const kakao = window.kakao
+  const [bounds, setBounds] = useState(null)
+  const [info, setInfo] = useState("")
   const classes = useStyles()
 
   /**
@@ -57,6 +61,7 @@ const Map = () => {
           const { latitude, longitude } = coords
           const moveLatLng = new kakao.maps.LatLng(latitude, longitude)
           map.panTo(moveLatLng)
+          setBounds(getBounds())
           setPending(false)
         },
         () => {
@@ -74,12 +79,16 @@ const Map = () => {
     }
   }
 
+  const getBounds = useCallback(() => {
+    return map.getBounds()
+  }, [map])
+
   useEffect(() => {
     const container = document.getElementById("map") //지도를 담을 영역의 DOM 레퍼런스
     const options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-      level: 3 //지도의 레벨(확대, 축소 정도)
+      center: new kakao.maps.LatLng(37.4019528117587, 127.10828323199647), //지도의 중심좌표.
+      level: 5 //지도의 레벨(확대, 축소 정도)
     }
 
     const map = new kakao.maps.Map(container, options) //지도 생성 및 객체 리턴
@@ -87,11 +96,43 @@ const Map = () => {
     setPending(false)
   }, [kakao.maps])
 
+  useEffect(() => {
+    if (map) {
+      getLocation()
+      kakao.maps.event.addListener(map, "idle", function() {
+        const level = map.getLevel()
+        if (level <= 6) {
+          setBounds(getBounds())
+          setInfo("")
+        } else {
+          setInfo("지도를 좀 더 확대해주세요")
+        }
+      })
+    }
+  }, [map])
+
+  useEffect(() => {
+    if (bounds) {
+      // 남서쪽
+      const swBounds = bounds.getSouthWest()
+      // 북동쪽
+      const neBounds = bounds.getNorthEast()
+
+      // const { Ga: lon1, Ha: lat1 } = swBounds
+      // const { Ga: lon2, Ha: lat2 } = neBounds
+
+      // API.Shop.fetchShopsByBounds(lat1, lat2, lon1, lon2).then(response => {
+      //   console.log(response)
+      // })
+    }
+  }, [bounds])
+
   return (
     <>
       <AppBar onSearch={handleSearch} />
       {!pending && <Toolbar pending={pending} onLocationButtonClick={getLocation} />}
       {pending && <LinearProgress color="secondary" className={classes.progress} />}
+      {info && <Info message={info} />}
       <div id="map" className={classes.map} />
     </>
   )
