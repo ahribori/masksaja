@@ -17,6 +17,7 @@
     "tippy.js": "^6.0.1"
   },
   "scripts": {
+    "server": "node server/server.js",
     "start": "react-scripts start",
     "build": "react-scripts build docs",
     "test": "react-scripts test",
