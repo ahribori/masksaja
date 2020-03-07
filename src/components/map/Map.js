@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react"
+import { renderToStaticMarkup } from "react-dom/server"
 import { makeStyles } from "@material-ui/core/styles"
 import AppBar from "../appbar/AppBar"
 import Toolbar from "./Toolbar"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import API from "../../api/API"
 import Info from "../info/Info"
+import ShopOverlay from "./ShopOverlay"
+import axios from "axios"
+import tippy from "tippy.js"
+import "tippy.js/dist/tippy.css"
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -29,6 +34,7 @@ const Map = () => {
   const [bounds, setBounds] = useState(null)
   const [info, setInfo] = useState("")
   const classes = useStyles()
+  const debouncedBounds = useDebounce(bounds, 300)
 
   /**
    * 장소 검색
@@ -73,6 +79,39 @@ const Map = () => {
     }
   }
 
+  const removeAllShopOverlays = () =>
+    document.querySelectorAll("[data-shop-code]").forEach(e => e.parentNode.removeChild(e))
+
+  const setShopOverlays = shops => {
+    removeAllShopOverlays()
+    shops.forEach(shop => {
+      const {
+        // code, // 판매기관코드
+        // name, // 판매기관명
+        // type, // 판매처 유형 (약국: 01, 우체국: 02, 농협: 03)
+        // addr, // 주소
+        // tel, // 연락처
+        // stock_d, // 입고일
+        // stock_t, // 입고시간
+        // stock_cnt, // 입고수량
+        // sold_cnt, // 판매수량
+        // remain_cnt, // 잔고수량
+        // sold_out, // 완판여부
+        lat, // 위도
+        lng // 경도
+      } = shop
+
+      const overlay = new kakao.maps.CustomOverlay({
+        map,
+        clickable: true,
+        position: new kakao.maps.LatLng(lng, lat),
+        content: renderToStaticMarkup(<ShopOverlay {...shop} />),
+        zIndex: 99999
+      })
+      overlay.setMap(map)
+    })
+  }
+
   const handleSearch = searchText => {
     if (searchText) {
       searchPlace(searchText)
@@ -97,17 +136,21 @@ const Map = () => {
   }, [kakao.maps])
 
   useEffect(() => {
+    const onChange = function() {
+      const level = map.getLevel()
+      if (level <= 6) {
+        setBounds(getBounds())
+        setInfo("")
+      } else {
+        removeAllShopOverlays()
+        setInfo("지도를 좀 더 확대해주세요")
+      }
+    }
+
     if (map) {
       getLocation()
-      kakao.maps.event.addListener(map, "idle", function() {
-        const level = map.getLevel()
-        if (level <= 6) {
-          setBounds(getBounds())
-          setInfo("")
-        } else {
-          setInfo("지도를 좀 더 확대해주세요")
-        }
-      })
+      kakao.maps.event.addListener(map, "zoom_changed", onChange)
+      kakao.maps.event.addListener(map, "center_changed", onChange)
     }
   }, [map])
 
@@ -118,19 +161,28 @@ const Map = () => {
       // 북동쪽
       const neBounds = bounds.getNorthEast()
 
-      // const { Ga: lon1, Ha: lat1 } = swBounds
-      // const { Ga: lon2, Ha: lat2 } = neBounds
+      const { Ga: lon1, Ha: lat1 } = swBounds
+      const { Ga: lon2, Ha: lat2 } = neBounds
 
-      // API.Shop.fetchShopsByBounds(lat1, lat2, lon1, lon2).then(response => {
-      //   console.log(response)
-      // })
+      setPending(true)
+      API.Shop.fetchShopsByBounds(lat1, lat2, lon1, lon2)
+        .then(response => {
+          const shops = response.data
+          setShopOverlays(shops)
+          setPending(false)
+        })
+        .catch(thrown => {
+          if (!axios.isCancel(thrown)) {
+            setPending(false)
+          }
+        })
     }
-  }, [bounds])
+  }, [debouncedBounds])
 
   return (
     <>
       <AppBar onSearch={handleSearch} />
-      {!pending && <Toolbar pending={pending} onLocationButtonClick={getLocation} />}
+      <Toolbar pending={pending} onLocationButtonClick={getLocation} />
       {pending && <LinearProgress color="secondary" className={classes.progress} />}
       {info && <Info message={info} />}
       <div id="map" className={classes.map} />
@@ -138,4 +190,19 @@ const Map = () => {
   )
 }
 
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value, delay])
+
+  return debouncedValue
+}
 export default Map
