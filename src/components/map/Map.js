@@ -20,11 +20,7 @@ const useStyles = makeStyles(theme => ({
   progress: {
     position: "fixed",
     zIndex: 9999,
-    width: "100%",
-    top: 56,
-    [theme.breakpoints.up("sm")]: {
-      top: 64
-    }
+    width: "100%"
   }
 }))
 
@@ -73,9 +69,11 @@ const Map = () => {
         },
         () => {
           setPending(false)
+          alert("위치를 불러올 수 없습니다.")
         }
       )
     } else {
+      alert("위치를 불러올 수 없습니다.")
       setPending(false)
     }
   }
@@ -187,7 +185,12 @@ const Map = () => {
     <>
       <AppBar onSearch={handleSearch} />
       <Toolbar pending={pending} onLocationButtonClick={getLocation} />
-      {pending && <LinearProgress color="secondary" className={classes.progress} />}
+      {pending && (
+        <>
+          <LinearProgress color="secondary" className={classes.progress} />
+          <div className={classes.dimmer} />
+        </>
+      )}
       {info && <Info message={info} />}
       <div id="map" className={classes.map} />
     </>
