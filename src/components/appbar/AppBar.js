@@ -65,21 +65,21 @@ const AppBar = ({ onSearch }) => {
   const classes = useStyles()
   const [searchText, setSearchText] = useState("")
 
-  const title = "카카오 지도"
+  const title = "마스크 사자"
   const searchPlaceholder = "건물, 지역 검색..."
 
   return (
     <div className={classes.root}>
       <MaterialAppBar position="fixed">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
+          {/*<IconButton*/}
+          {/*  edge="start"*/}
+          {/*  className={classes.menuButton}*/}
+          {/*  color="inherit"*/}
+          {/*  aria-label="open drawer"*/}
+          {/*>*/}
+          {/*  <MenuIcon />*/}
+          {/*</IconButton>*/}
           <Typography className={classes.title} variant="h6" noWrap>
             {title}
           </Typography>

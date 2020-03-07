@@ -149,8 +149,7 @@ const Map = () => {
 
     if (map) {
       getLocation()
-      kakao.maps.event.addListener(map, "zoom_changed", onChange)
-      kakao.maps.event.addListener(map, "center_changed", onChange)
+      kakao.maps.event.addListener(map, "tilesloaded", onChange)
     }
   }, [map])
 
