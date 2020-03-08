@@ -10,8 +10,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     backgroundColor: indigo[700],
     color: "#fff",
-    textAlign: 'center',
-    minWidth: 40,
+    textAlign: "center",
+    minWidth: 40
   },
   soldOut: {
     padding: theme.spacing(1),
@@ -49,9 +49,6 @@ const ShopOverlay = ({
       <Typography className={classes.title}>{name}</Typography>
       <Typography className={classes.content} component="p">
         남은 수량: {remain_cnt}
-      </Typography>
-      <Typography className={classes.content} component="p">
-        {tel}
       </Typography>
       <Typography className={classes.content} component="p">
         {addr}
