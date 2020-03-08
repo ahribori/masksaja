@@ -21,7 +21,6 @@ const ErrorNotice = () => {
       <DialogTitle id="alert-dialog-title">알림</DialogTitle>
       <DialogContent>
         <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
-          <br />
           성급한 오픈으로 혼선을 드려 죄송합니다.
           <br />
           <br />
