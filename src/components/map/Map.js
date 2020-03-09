@@ -189,12 +189,16 @@ const Map = () => {
       const { Ha: lat, Ga: lng } = center
       const level = map.getLevel()
       const radius = (level + 1) * 200
-      setPending(true)
 
+      console.log(center)
+
+      // set dummy data
+      // setShopOverlays(dummyShops)
+
+      setPending(true)
       API.Shop.fetchShopsByBounds(lat, lng, radius)
         .then(response => {
           const shops = response.data.stores
-          console.log(response.data)
           setShopOverlays(shops)
           setPending(false)
         })

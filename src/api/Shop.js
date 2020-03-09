@@ -18,3 +18,38 @@ export class Shop {
     )
   }
 }
+
+export const dummyShops = [
+  {
+    code: 9999,
+    name: "약국이름",
+    addr: "약국주소에요 1234",
+    lat: 37.40193158922029,
+    lng: 127.10356120748075,
+    remain_stat: "plenty",
+  },
+  {
+    code: 9141999,
+    name: "약국이름",
+    addr: "약국주소에요 1234",
+    lat: 37.40193158922029,
+    lng: 127.09356120748075,
+    remain_stat: "some",
+  },
+  {
+    code: 9995395,
+    name: "약국이름",
+    addr: "약국주소에요 1234",
+    lat: 37.40193158922029,
+    lng: 127.11356120748075,
+    remain_stat: "few",
+  },
+  {
+    code: 9995395,
+    name: "약국이름",
+    addr: "약국주소에요 1234",
+    lat: 37.40413158922029,
+    lng: 127.11356120748075,
+    remain_stat: "empty",
+  }
+]

@@ -28,7 +28,7 @@ const Agreement = () => {
 
         <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
           * 마스크 사용 지침 및 공적 마스크 관련 안내는{" "}
-          <a href="https://www.mfds.go.kr/bogunMaskPanMae.jsp" target="_blank">
+          <a href="https://www.mfds.go.kr/bogunMaskPanMae.jsp" target="_blank" rel="noopener noreferrer">
             <strong>[식약처 홈페이지]</strong>
           </a>
           를 참고하세요.
