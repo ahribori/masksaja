@@ -8,13 +8,12 @@ import Notice from "./components/notice/Notice"
 import ErrorNotice from "./components/notice/ErrorNotice"
 
 function App() {
-  return <ErrorNotice />
-
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.App}>
         <Map />
         <About />
+        {/*<ErrorNotice />*/}
         <Notice />
       </div>
     </ThemeProvider>

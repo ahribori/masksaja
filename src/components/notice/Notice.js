@@ -18,16 +18,24 @@ const Notice = () => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">알려드립니다</DialogTitle>
+      <DialogTitle id="alert-dialog-title">공지사항</DialogTitle>
       <DialogContent>
-        <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
-          * 본 사이트에서는 코로나19 공적마스크 실시간 재고 조회 API를 사용하고 있습니다.
+        <Typography variant="body2" gutterBottom style={{ fontSize: 13, color: "red" }}>
+          * <strong>서비스 준비중입니다.</strong>
         </Typography>
         <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
-          * 데이터 갱신 주기는 약 5분 입니다.
+          * 마스크사자에서 제공하는 공적마스크 판매정보는 <strong>5분 이상 지연된 것</strong>{" "}
+          입니다.
         </Typography>
         <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
-          * 2020년 3월 8일 오후 6~7시경부터 실제 데이터가 반영됩니다.
+          * 마스크 사용 지침 및 공적 마스크 관련 안내는{" "}
+          <a href="https://www.mfds.go.kr/bogunMaskPanMae.jsp" target="_blank">
+            [식약처 홈페이지]
+          </a>
+          를 참고하세요.
+        </Typography>
+        <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
+          * 일선에서 수고하시는 약사분들께 감사의 마음을 전합니다.
         </Typography>
       </DialogContent>
       <DialogActions>
