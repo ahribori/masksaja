@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles"
 const useStyles = makeStyles(theme => ({
   toolbar: {
     position: "fixed",
-    zIndex: 99999,
+    zIndex: 1000,
     right: theme.spacing(1),
     top: theme.spacing(8),
     backgroundColor: "#fff",
