@@ -49,8 +49,8 @@ const Agreement = () => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant={"contained"} color="primary">
-          동의합니다
+        <Button onClick={handleClose} variant={"contained"} color="primary" disabled={true}>
+          서비스 준비중
         </Button>
       </DialogActions>
     </Dialog>
