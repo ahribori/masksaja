@@ -162,7 +162,8 @@ const Map = () => {
     }
 
     if (map) {
-      getLocation()
+      // 맵 처음 로딩되었을때 위치정보 요청하는 것 제거
+      // getLocation()
       kakao.maps.event.addListener(map, "tilesloaded", onChange)
       kakao.maps.event.addListener(map, "zoom_start", () => {
         hideAll()

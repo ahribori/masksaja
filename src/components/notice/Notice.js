@@ -15,6 +15,7 @@ const Notice = () => {
     <Dialog
       open={open}
       onClose={handleClose}
+      disableBackdropClick={true}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -39,9 +40,9 @@ const Notice = () => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          확인
-        </Button>
+        {/*<Button onClick={handleClose} color="primary" disabled={true}>*/}
+        {/*  확인*/}
+        {/*</Button>*/}
       </DialogActions>
     </Dialog>
   )
