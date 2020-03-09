@@ -5,7 +5,6 @@ import classes from "./App.module.css"
 import Map from "./components/map"
 import About from "./components/about/About"
 import Notice from "./components/notice/Notice"
-import ErrorNotice from "./components/notice/ErrorNotice"
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
       <div className={classes.App}>
         <Map />
         <About />
-        {/*<ErrorNotice />*/}
         <Notice />
       </div>
     </ThemeProvider>
