@@ -24,7 +24,7 @@ const Agreement = ({ serviceOpen }) => {
       <DialogContent>
         {!serviceOpen && (
           <Typography variant="body2" gutterBottom style={{ fontSize: 15, color: "red" }}>
-            * <strong>서비스 준비중입니다.</strong>
+            * <strong>서비스 준비중입니다. (3월 11일 오전 8시 오픈예정)</strong>
           </Typography>
         )}
 
