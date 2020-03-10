@@ -5,6 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import Dialog from "@material-ui/core/Dialog"
 import Typography from "@material-ui/core/Typography"
+import Divider from "@material-ui/core/Divider"
 
 const Agreement = ({ serviceOpen }) => {
   const [open, setOpen] = useState(true)
@@ -56,6 +57,13 @@ const Agreement = ({ serviceOpen }) => {
         <Typography variant="body2" gutterBottom style={{ fontSize: 13, color: "red" }}>
           * 실제 약국에 있는 재고량과 오차가 발생할 수 있으니 절대로 현장에 계신 약사님들께 문제를
           제기하지 말아주세요.
+        </Typography>
+
+        <Divider style={{ margin: "10px 0" }} />
+
+        <Typography variant="body2" gutterBottom style={{ fontSize: 11 }}>
+          데이터 관련 문의: 한국정보화진흥원(
+          <a href="mailto:where-mask@jupiterflow.com">where-mask@jupiterflow.com</a>)
         </Typography>
       </DialogContent>
       <DialogActions>
