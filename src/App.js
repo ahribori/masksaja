@@ -9,6 +9,7 @@ import { isPast } from "date-fns"
 
 function App() {
   const serviceOpen = isPast(new Date("2020-03-11 08:00:00"))
+  console.log("serviceOpen", serviceOpen)
 
   return (
     <ThemeProvider theme={theme}>

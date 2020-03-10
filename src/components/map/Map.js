@@ -11,6 +11,7 @@ import axios from "axios"
 import tippy, { hideAll } from "tippy.js"
 import "tippy.js/dist/tippy.css"
 import { cancelFetchShopsByBounds } from "../../api/Shop"
+import FilterDialog from "./FilterDialog"
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -26,10 +27,14 @@ const useStyles = makeStyles(theme => ({
 
 const Map = ({ serviceOpen }) => {
   const [pending, setPending] = useState(true)
+  const [shops, setShops] = useState([])
+  const [filteredShops, setFilteredShops] = useState([])
   const [kakao] = useState(window.kakao)
   const [map, setMap] = useState(null)
   const [bounds, setBounds] = useState(null)
   const [info, setInfo] = useState("")
+  const [filter, setFilter] = useState({})
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false)
   const classes = useStyles()
   const debouncedBounds = useDebounce(bounds, 300)
 
@@ -96,6 +101,7 @@ const Map = ({ serviceOpen }) => {
 
   const setShopOverlays = shops =>
     setTimeout(() => {
+      hideAll()
       removeAllShopOverlays()
       shops.forEach(shop => {
         const {
@@ -194,13 +200,12 @@ const Map = ({ serviceOpen }) => {
       // setShopOverlays(dummyShops)
 
       console.log("center", center)
-      console.log("serviceOpen", serviceOpen)
       if (serviceOpen) {
         setPending(true)
         API.Shop.fetchShopsByBounds(lat, lng, radius)
           .then(response => {
             const shops = response.data.stores
-            setShopOverlays(shops)
+            setShops(shops)
             setPending(false)
           })
           .catch(thrown => {
@@ -209,13 +214,34 @@ const Map = ({ serviceOpen }) => {
             }
           })
       }
+      console.log(filter)
     }
   }, [debouncedBounds])
+
+  useEffect(() => {
+    const { hideEmpty } = filter
+    console.log("hideEmpty", hideEmpty)
+    if (hideEmpty) {
+      setFilteredShops(shops.filter(shop => shop.remain_stat !== "empty"))
+    } else {
+      setFilteredShops(shops)
+    }
+  }, [filter, shops])
+
+  useEffect(() => {
+    console.log("setShopOverlays", filteredShops)
+    setShopOverlays(filteredShops)
+  }, [filteredShops])
 
   return (
     <>
       <AppBar onSearch={handleSearch} />
-      <Toolbar pending={pending} onLocationButtonClick={getLocation} onRenewButtonClick={renew} />
+      <Toolbar
+        pending={pending}
+        onLocationButtonClick={getLocation}
+        onRenewButtonClick={renew}
+        onFilterButtonClick={() => setFilterDialogOpen(true)}
+      />
       {pending && (
         <>
           <LinearProgress color="secondary" className={classes.progress} />
@@ -223,6 +249,11 @@ const Map = ({ serviceOpen }) => {
         </>
       )}
       {info && <Info message={info} />}
+      <FilterDialog
+        open={filterDialogOpen}
+        onFilterChange={values => setFilter(values)}
+        handleClose={() => setFilterDialogOpen(false)}
+      />
       <div id="map" className={classes.map} />
     </>
   )
