@@ -265,9 +265,9 @@ const Map = ({ serviceOpen }) => {
       {pending && (
         <>
           <LinearProgress color="secondary" className={classes.progress} />
-          <div className={classes.dimmer}>
-            <CircularProgress size={50} thickness={5} />
-          </div>
+          {/*<div className={classes.dimmer}>*/}
+          {/*  <CircularProgress size={50} thickness={5} />*/}
+          {/*</div>*/}
         </>
       )}
       {info && <Info message={info} />}

@@ -63,7 +63,10 @@ const Agreement = ({ serviceOpen }) => {
 
         <Typography variant="body2" gutterBottom style={{ fontSize: 11 }}>
           데이터 관련 문의: 한국정보화진흥원(
-          <a href="mailto:where-mask@jupiterflow.com">where-mask@jupiterflow.com</a>)
+          <a href="https://www.nia.or.kr" target="_blank" rel="noopener noreferrer">
+            https://www.nia.or.kr
+          </a>
+          )
         </Typography>
       </DialogContent>
       <DialogActions>
