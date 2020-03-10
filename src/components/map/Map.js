@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Map = () => {
+const Map = ({ serviceOpen }) => {
   const [pending, setPending] = useState(true)
   const [kakao] = useState(window.kakao)
   const [map, setMap] = useState(null)
@@ -190,23 +190,25 @@ const Map = () => {
       const level = map.getLevel()
       const radius = (level + 1) * 200
 
-      console.log(center)
-
       // set dummy data
       // setShopOverlays(dummyShops)
 
-      setPending(true)
-      API.Shop.fetchShopsByBounds(lat, lng, radius)
-        .then(response => {
-          const shops = response.data.stores
-          setShopOverlays(shops)
-          setPending(false)
-        })
-        .catch(thrown => {
-          if (!axios.isCancel(thrown)) {
+      console.log("center", center)
+      console.log("serviceOpen", serviceOpen)
+      if (serviceOpen) {
+        setPending(true)
+        API.Shop.fetchShopsByBounds(lat, lng, radius)
+          .then(response => {
+            const shops = response.data.stores
+            setShopOverlays(shops)
             setPending(false)
-          }
-        })
+          })
+          .catch(thrown => {
+            if (!axios.isCancel(thrown)) {
+              setPending(false)
+            }
+          })
+      }
     }
   }, [debouncedBounds])
 

@@ -6,7 +6,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import Dialog from "@material-ui/core/Dialog"
 import Typography from "@material-ui/core/Typography"
 
-const Agreement = () => {
+const Agreement = ({ serviceOpen }) => {
   const [open, setOpen] = useState(true)
   const handleClose = () => {
     setOpen(false)
@@ -22,13 +22,23 @@ const Agreement = () => {
     >
       <DialogTitle id="alert-dialog-title">서비스 이용 동의</DialogTitle>
       <DialogContent>
-        <Typography variant="body2" gutterBottom style={{ fontSize: 15, color: "red" }}>
-          * <strong>서비스 준비중입니다.</strong>
+        {!serviceOpen && (
+          <Typography variant="body2" gutterBottom style={{ fontSize: 15, color: "red" }}>
+            * <strong>서비스 준비중입니다.</strong>
+          </Typography>
+        )}
+
+        <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
+          * <strong>3월 15일까지 베타테스트 기간입니다.</strong>
         </Typography>
 
         <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
           * 마스크 사용 지침 및 공적 마스크 관련 안내는{" "}
-          <a href="https://www.mfds.go.kr/bogunMaskPanMae.jsp" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.mfds.go.kr/bogunMaskPanMae.jsp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <strong>[식약처 홈페이지]</strong>
           </a>
           를 참고하세요.
@@ -49,8 +59,8 @@ const Agreement = () => {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant={"contained"} color="primary" disabled={true}>
-          서비스 준비중
+        <Button onClick={handleClose} variant={"contained"} color="primary" disabled={!serviceOpen}>
+          {serviceOpen ? "동의합니다" : "서비스 준비중"}
         </Button>
       </DialogActions>
     </Dialog>
