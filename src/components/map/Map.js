@@ -90,7 +90,7 @@ const Map = ({ serviceOpen }) => {
 
   const renew = () => {
     const level = map.getLevel()
-    if (level <= 6) {
+    if (level <= 5) {
       setBounds(getBounds())
     }
   }
@@ -154,7 +154,7 @@ const Map = ({ serviceOpen }) => {
   useEffect(() => {
     const onChange = function() {
       const level = map.getLevel()
-      if (level <= 6) {
+      if (level <= 5) {
         setBounds(getBounds())
         setInfo("")
       } else {
@@ -194,7 +194,8 @@ const Map = ({ serviceOpen }) => {
       const center = map.getCenter()
       const { Ha: lat, Ga: lng } = center
       const level = map.getLevel()
-      const radius = (level + 1) * 200
+      const radius = (level + 4) ** 2 * 12
+      console.log(radius)
 
       // set dummy data
       // setShopOverlays(dummyShops)
@@ -222,7 +223,7 @@ const Map = ({ serviceOpen }) => {
     const { hideEmpty } = filter
     console.log("hideEmpty", hideEmpty)
     if (hideEmpty) {
-      setFilteredShops(shops.filter(shop => shop.remain_stat !== "empty"))
+      setFilteredShops(shops.filter(shop => shop.remain_stat && shop.remain_stat !== "empty"))
     } else {
       setFilteredShops(shops)
     }

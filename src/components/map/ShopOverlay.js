@@ -63,8 +63,10 @@ const ShopOverlay = ({
 
   const mapped = !!REMAIN_STAT_MAP[remain_stat]
   const mappedAttribute = REMAIN_STAT_MAP[remain_stat] || {
-    label: name,
-    backgroundColor: grey[900]
+    label: "정보없음",
+    backgroundColor: grey[700],
+    color: grey[100],
+    tooltipFontColor: grey[300]
   }
 
   const Tooltip = () => (
