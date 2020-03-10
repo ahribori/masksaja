@@ -46,7 +46,6 @@ const Map = ({ serviceOpen }) => {
   const [kakao] = useState(window.kakao)
   const [map, setMap] = useState(null)
   const [bounds, setBounds] = useState(null)
-  const [overlays, setOverlays] = useState([])
   const [info, setInfo] = useState("")
   const [filter, setFilter] = useState({})
   const [filterDialogOpen, setFilterDialogOpen] = useState(false)
@@ -111,15 +110,12 @@ const Map = ({ serviceOpen }) => {
   }
 
   const removeAllShopOverlays = () => {
-    hideAll()
-    if (overlays.length > 0) {
-      overlays.forEach(overlay => overlay.setMap(null))
-      setOverlays(() => [])
-    }
+    document.querySelectorAll("[data-shop-code]").forEach(e => e.parentNode.removeChild(e))
   }
 
   const setShopOverlays = shops =>
     setTimeout(() => {
+      hideAll()
       removeAllShopOverlays()
       shops.forEach(shop => {
         const {
@@ -146,7 +142,6 @@ const Map = ({ serviceOpen }) => {
           zIndex: 99999
         })
         overlay.setMap(map)
-        setOverlays(arr => [...arr, overlay])
         tippy("[data-tippy-content]", { allowHTML: true })
       })
     }, 0)
@@ -191,10 +186,10 @@ const Map = ({ serviceOpen }) => {
       // getLocation()
       kakao.maps.event.addListener(map, "tilesloaded", onChange)
       kakao.maps.event.addListener(map, "zoom_start", () => {
-        removeAllShopOverlays()
+        hideAll()
       })
       kakao.maps.event.addListener(map, "dragstart", () => {
-        removeAllShopOverlays()
+        hideAll()
       })
     }
   }, [map])
