@@ -12,6 +12,7 @@ import tippy, { hideAll } from "tippy.js"
 import "tippy.js/dist/tippy.css"
 import { cancelFetchShopsByBounds } from "../../api/Shop"
 import FilterDialog from "./FilterDialog"
+import { CircularProgress } from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -22,6 +23,19 @@ const useStyles = makeStyles(theme => ({
     position: "fixed",
     zIndex: 9999,
     width: "100%"
+  },
+  dimmer: {
+    width: "100vw",
+    height: "100vh",
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    backgroundColor: "rgba(255,255,255,0.3)",
+    pointerEvents: "none"
   }
 }))
 
@@ -246,7 +260,9 @@ const Map = ({ serviceOpen }) => {
       {pending && (
         <>
           <LinearProgress color="secondary" className={classes.progress} />
-          <div className={classes.dimmer} />
+          <div className={classes.dimmer}>
+            <CircularProgress size={50} thickness={5} />
+          </div>
         </>
       )}
       {info && <Info message={info} />}
