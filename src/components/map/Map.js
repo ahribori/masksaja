@@ -12,7 +12,6 @@ import tippy, { hideAll } from "tippy.js"
 import "tippy.js/dist/tippy.css"
 import { cancelFetchShopsByBounds } from "../../api/Shop"
 import FilterDialog from "./FilterDialog"
-import { CircularProgress } from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   map: {
