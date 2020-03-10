@@ -24,19 +24,27 @@ const useStyles = makeStyles(theme => ({
 const REMAIN_STAT_MAP = {
   plenty: {
     label: "100개 이상",
-    color: green[700]
+    backgroundColor: green[700],
+    color: grey[100],
+    tooltipFontColor: green[300]
   },
   some: {
-    label: "30~100 개",
-    color: amber[700]
+    label: "30~99 개",
+    backgroundColor: amber[700],
+    color: grey[100],
+    tooltipFontColor: amber[300]
   },
   few: {
     label: "30개 미만",
-    color: red[700]
+    backgroundColor: red[700],
+    color: grey[100],
+    tooltipFontColor: red[300]
   },
   empty: {
     label: "품절",
-    color: grey[700]
+    backgroundColor: grey[700],
+    color: grey[100],
+    tooltipFontColor: grey[300]
   }
 }
 
@@ -47,18 +55,40 @@ const ShopOverlay = ({
   /**
    * 재고 상태[100개 이상(녹색): 'plenty' / 30개 이상 100개미만(노랑색): 'some' / 1개 이상 30개 미만(빨강색): 'few' / 0개(회색): 'empty']
    */
-  remain_stat
+  remain_stat,
+  stock_at, // 입고시간
+  created_at // 데이터 생성 일자
 }) => {
   const classes = useStyles()
 
+  const mapped = !!REMAIN_STAT_MAP[remain_stat]
+  const mappedAttribute = REMAIN_STAT_MAP[remain_stat] || {
+    label: name,
+    backgroundColor: grey[900]
+  }
+
   const Tooltip = () => (
     <div>
-      <Typography className={classes.title}>{name}</Typography>
-      <Typography className={classes.content} component="p">
-        {REMAIN_STAT_MAP[remain_stat].label}
+      <Typography className={classes.title} style={{ marginBottom: 3 }}>
+        {name}
       </Typography>
+      {mapped && (
+        <Typography
+          className={classes.content}
+          component="p"
+          style={{ color: mappedAttribute.tooltipFontColor }}
+        >
+          {mappedAttribute.label}
+        </Typography>
+      )}
       <Typography className={classes.content} component="p">
         {addr}
+      </Typography>
+      <Typography className={classes.content} component="p">
+        입고시간: {stock_at}
+      </Typography>
+      <Typography className={classes.content} component="p">
+        업데이트: {created_at}
       </Typography>
     </div>
   )
@@ -71,10 +101,10 @@ const ShopOverlay = ({
     >
       <Card
         className={classes.normal}
-        style={{ backgroundColor: REMAIN_STAT_MAP[remain_stat].color }}
+        style={{ backgroundColor: mappedAttribute.backgroundColor, color: mappedAttribute.color }}
       >
         <Typography className={classes.title} component="p">
-          {REMAIN_STAT_MAP[remain_stat].label}
+          {mappedAttribute.label}
         </Typography>
       </Card>
     </div>
