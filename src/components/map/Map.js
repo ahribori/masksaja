@@ -224,13 +224,12 @@ const Map = ({ serviceOpen }) => {
           .then(response => {
             const shops = response.data.stores
             setShops(shops)
+            setPending(false)
           })
           .catch(thrown => {
             if (!axios.isCancel(thrown)) {
               setError("데이터를 가져오지 못했습니다.")
             }
-          })
-          .finally(() => {
             setPending(false)
           })
       }
