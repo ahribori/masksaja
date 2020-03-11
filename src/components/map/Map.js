@@ -12,6 +12,9 @@ import tippy, { hideAll } from "tippy.js"
 import "tippy.js/dist/tippy.css"
 import { cancelFetchShopsByBounds } from "../../api/Shop"
 import FilterDialog from "./FilterDialog"
+import IconButton from "@material-ui/core/IconButton"
+import Snackbar from "@material-ui/core/Snackbar"
+import { Close } from "@material-ui/icons"
 
 const useStyles = makeStyles(theme => ({
   map: {
@@ -46,6 +49,7 @@ const Map = ({ serviceOpen }) => {
   const [map, setMap] = useState(null)
   const [bounds, setBounds] = useState(null)
   const [info, setInfo] = useState("")
+  const [error, setError] = useState(null)
   const [filter, setFilter] = useState({})
   const [filterDialogOpen, setFilterDialogOpen] = useState(false)
   const classes = useStyles()
@@ -225,6 +229,8 @@ const Map = ({ serviceOpen }) => {
           .catch(thrown => {
             if (!axios.isCancel(thrown)) {
               setPending(false)
+            } else {
+              setError("서버 과부화로 요청이 지연되고있습니다.")
             }
           })
       }
@@ -269,6 +275,28 @@ const Map = ({ serviceOpen }) => {
         open={filterDialogOpen}
         onFilterChange={values => setFilter(values)}
         handleClose={() => setFilterDialogOpen(false)}
+      />
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={!!error}
+        autoHideDuration={3000}
+        onClose={() => setError(null)}
+        message={error}
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={() => setError(null)}
+            >
+              <Close />
+            </IconButton>
+          </React.Fragment>
+        }
       />
       <div id="map" className={classes.map} />
     </>
