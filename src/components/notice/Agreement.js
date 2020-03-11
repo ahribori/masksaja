@@ -63,10 +63,7 @@ const Agreement = ({ serviceOpen }) => {
 
         <Typography variant="body2" gutterBottom style={{ fontSize: 11 }}>
           데이터 관련 문의: 한국정보화진흥원(
-          <a href="https://www.nia.or.kr" target="_blank" rel="noopener noreferrer">
-            https://www.nia.or.kr
-          </a>
-          )
+          <a href="mailto:maskdata@nia.or.kr">maskdata@nia.or.kr</a>)
         </Typography>
       </DialogContent>
       <DialogActions>
