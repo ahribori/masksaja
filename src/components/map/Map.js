@@ -74,9 +74,9 @@ const Map = ({ serviceOpen }) => {
         map.panTo(moveLatLng)
         map.setLevel(3)
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert("검색 결과가 없습니다.")
+        setError("검색 결과가 없습니다.")
       } else {
-        alert("서비스에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.")
+        setError("서비스에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.")
       }
       setPending(false)
     })
@@ -97,12 +97,11 @@ const Map = ({ serviceOpen }) => {
         },
         () => {
           setPending(false)
-          alert("위치를 불러올 수 없습니다.")
+          setError("내 위치를 불러올 수 없습니다.")
         }
       )
     } else {
-      alert("위치를 불러올 수 없습니다.")
-      setPending(false)
+      setError("위치를 불러올 수 없습니다.")
     }
   }
 
