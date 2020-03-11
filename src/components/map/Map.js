@@ -89,6 +89,7 @@ const Map = ({ serviceOpen }) => {
         position => {
           const { coords } = position
           const { latitude, longitude } = coords
+          console.log("getLocation", latitude, longitude)
           const moveLatLng = new kakao.maps.LatLng(latitude, longitude)
           map.panTo(moveLatLng)
           setBounds(getBounds())
@@ -186,7 +187,7 @@ const Map = ({ serviceOpen }) => {
 
     if (map) {
       // 맵 처음 로딩되었을때 위치정보 요청하는 것 제거
-      // getLocation()
+      getLocation()
       kakao.maps.event.addListener(map, "tilesloaded", onChange)
       kakao.maps.event.addListener(map, "zoom_start", () => {
         hideAll()
