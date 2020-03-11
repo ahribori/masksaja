@@ -53,7 +53,7 @@ const Map = ({ serviceOpen }) => {
   const [filter, setFilter] = useState({})
   const [filterDialogOpen, setFilterDialogOpen] = useState(false)
   const classes = useStyles()
-  const debouncedBounds = useDebounce(bounds, 300)
+  const debouncedBounds = useDebounce(bounds, 500)
 
   const getBounds = useCallback(() => {
     return map.getBounds()
@@ -212,7 +212,7 @@ const Map = ({ serviceOpen }) => {
       const { Ha: lat, Ga: lng } = center
       const level = map.getLevel()
       const radius = (level + 4) ** 2 * 12
-      console.log(radius)
+      console.log("radius", radius)
 
       // set dummy data
       // setShopOverlays(dummyShops)
@@ -224,16 +224,16 @@ const Map = ({ serviceOpen }) => {
           .then(response => {
             const shops = response.data.stores
             setShops(shops)
-            setPending(false)
           })
           .catch(thrown => {
             if (!axios.isCancel(thrown)) {
-              setPending(false)
-              setError("서버 과부화로 요청이 지연되고있습니다.")
+              setError("데이터를 가져오지 못했습니다.")
             }
           })
+          .finally(() => {
+            setPending(false)
+          })
       }
-      console.log(filter)
     }
   }, [debouncedBounds])
 
