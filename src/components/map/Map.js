@@ -229,7 +229,6 @@ const Map = ({ serviceOpen }) => {
           .catch(thrown => {
             if (!axios.isCancel(thrown)) {
               setPending(false)
-            } else {
               setError("서버 과부화로 요청이 지연되고있습니다.")
             }
           })
