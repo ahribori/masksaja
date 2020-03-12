@@ -240,7 +240,11 @@ const Map = ({ serviceOpen }) => {
     const { hideEmpty } = filter
     console.log("hideEmpty", hideEmpty)
     if (hideEmpty) {
-      setFilteredShops(shops.filter(shop => shop.remain_stat && shop.remain_stat !== "empty"))
+      setFilteredShops(
+        shops.filter(
+          shop => shop.remain_stat && shop.remain_stat !== "empty" && shop.remain_stat !== "break"
+        )
+      )
     } else {
       setFilteredShops(shops)
     }
