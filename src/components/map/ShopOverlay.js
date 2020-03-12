@@ -45,6 +45,12 @@ const REMAIN_STAT_MAP = {
     backgroundColor: grey[700],
     color: grey[100],
     tooltipFontColor: grey[300]
+  },
+  break: {
+    label: "판매중지",
+    backgroundColor: grey[700],
+    color: grey[100],
+    tooltipFontColor: grey[300]
   }
 }
 
