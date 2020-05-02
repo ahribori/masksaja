@@ -23,16 +23,6 @@ const Agreement = ({ serviceOpen }) => {
     >
       <DialogTitle id="alert-dialog-title">서비스 이용 동의</DialogTitle>
       <DialogContent>
-        {!serviceOpen && (
-          <Typography variant="body2" gutterBottom style={{ fontSize: 15, color: "red" }}>
-            * <strong>서비스 준비중입니다. (3월 11일 오전 8시 오픈예정)</strong>
-          </Typography>
-        )}
-
-        <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
-          * <strong>3월 15일까지 베타테스트 기간입니다.</strong>
-        </Typography>
-
         <Typography variant="body2" gutterBottom style={{ fontSize: 13 }}>
           * 마스크 사용 지침 및 공적 마스크 관련 안내는{" "}
           <a

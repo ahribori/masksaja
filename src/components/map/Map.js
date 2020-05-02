@@ -19,7 +19,8 @@ import { Close } from "@material-ui/icons"
 const useStyles = makeStyles(theme => ({
   map: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    paddingBottom: 50
   },
   progress: {
     position: "fixed",
@@ -38,6 +39,9 @@ const useStyles = makeStyles(theme => ({
     zIndex: 10,
     backgroundColor: "rgba(255,255,255,0.3)",
     pointerEvents: "none"
+  },
+  snackbar: {
+    bottom: 58
   }
 }))
 
@@ -284,6 +288,7 @@ const Map = ({ serviceOpen }) => {
           horizontal: "left"
         }}
         open={!!error}
+        className={classes.snackbar}
         autoHideDuration={3000}
         onClose={() => setError(null)}
         message={error}

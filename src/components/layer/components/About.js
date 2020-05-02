@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => ({
     position: "fixed",
     zIndex: 1000,
     right: 0,
-    bottom: 0,
+    bottom: 50,
     width: 200,
     padding: theme.spacing(1),
     textAlign: "right",
